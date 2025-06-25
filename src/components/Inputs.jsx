@@ -1,8 +1,8 @@
 import { Form } from "react-bootstrap";
 
-export const input = (type, name, register, errors) => (
+export const input = (label, type, name, register, errors) => (
   <Form.Group controlId={`form-${name}`} className="w-100">
-    <Form.Label>{name.charAt(0).toUpperCase() + name.slice(1)}</Form.Label>
+    <Form.Label>{label}</Form.Label>
     <Form.Control
       type={type}
       {...register(name, { required: "Ce champ est requis" })}
@@ -15,9 +15,9 @@ export const input = (type, name, register, errors) => (
 );
 
 
-export const select = (name, options, register, errors) => (
+export const select = (label, name, options, register, errors) => (
   <Form.Group controlId={`form-${name}`} className="w-100">
-    <Form.Label>{name.charAt(0).toUpperCase() + name.slice(1)}</Form.Label>
+    <Form.Label>{label}</Form.Label>
     <Form.Select
       {...register(name, { required: "Veuillez choisir une priorité" })}
       isInvalid={!!errors[name]}
