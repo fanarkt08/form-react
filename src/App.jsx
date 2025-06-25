@@ -39,7 +39,6 @@ function App() {
 
     priorité: yup
       .string()
-      .placeholder("Basse")
       .matches(/^(Basse|Moyenne|Haute)$/, "La priorité doit être Basse, Moyenne ou Haute"),
 
     isCompleted: yup
