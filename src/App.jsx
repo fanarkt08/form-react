@@ -8,14 +8,19 @@ import * as yup from "yup";
 
 function App() {
   const schema = yup.object().shape({
-    nom: yup.string().required("Le nom est requis"),
+    nom: yup
+      .string()
+      .matches(/^.{8,15}$/)
+      .placeholder("")
+      .required("Le nom est requis"),
 
     date: yup
     .string()
-    .matches(
+    .oneOf(
       /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
       "Le format de la date doit être jj/mm/aaaa"
     )
+    .placeholder("")
     .required("La date est requise")
     .test(
       "date-non-passé",
@@ -36,14 +41,22 @@ function App() {
 
     priorité: yup
       .string()
+      .placeholder("Basse")
       .matches(/^(Basse|Moyenne|Haute)$/, "La priorité doit être Basse, Moyenne ou Haute"),
 
     isCompleted: yup
       .boolean()
+      .placeholder(False)
       .typeError("La case à cocher doit être un booléen")
   })
-  
+
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
+    defaultValues: {
+      nom: "",
+      date: "",
+      priorité: "Basse",
+      isCompleted: false
+    },
     resolver: yupResolver (schema)
   });
 
