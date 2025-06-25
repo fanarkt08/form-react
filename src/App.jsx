@@ -1,15 +1,50 @@
 import { useForm } from "react-hook-form";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import { input, select, checkbox } from "./components/Inputs";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+
 
 function App() {
+  const schema = yup.object().shape({
+    nom: yup.string().required("Le nom est requis"),
+
+    date: yup
+    .string()
+    .matches(
+      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
+      "Le format de la date doit être jj/mm/aaaa"
+    )
+    .required("La date est requise")
+    .test(
+      "date-non-passé",
+      "La date ne peut pas être antérieure à aujourd'hui",
+      function (value) {
+        if (!value) return false;
+
+        const [day, month, year] = value.split('/').map(Number);
+        const inputDate = new Date(year, month - 1, day);
+        const today = new Date();
+
+        inputDate.setHours(0, 0, 0, 0);
+        today.setHours(0, 0, 0, 0);
+
+        return inputDate >= today;
+      }
+    ),
+
+    priorité: yup
+      .string()
+      .matches(/^(Basse|Moyenne|Haute)$/, "La priorité doit être Basse, Moyenne ou Haute"),
+
+    isCompleted: yup
+      .boolean()
+      .typeError("La case à cocher doit être un booléen")
+  })
+  
   const { register, handleSubmit, reset, formState: { errors } } = useForm({
-    defaultValues: {
-      nom: "",
-      date: "",
-      priorité: "Basse",
-      isCompleted: false
-    }
+    resolver: yupResolver (schema)
   });
 
   const options = [
