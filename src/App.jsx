@@ -11,7 +11,6 @@ function App() {
     nom: yup
       .string()
       .matches(/^.{8,15}$/)
-      .placeholder("")
       .required("Le nom est requis"),
 
     date: yup
@@ -20,7 +19,6 @@ function App() {
       /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/,
       "Le format de la date doit être jj/mm/aaaa"
     )
-    .placeholder("")
     .required("La date est requise")
     .test(
       "date-non-passé",
@@ -46,7 +44,6 @@ function App() {
 
     isCompleted: yup
       .boolean()
-      .placeholder(False)
       .typeError("La case à cocher doit être un booléen")
   })
 
